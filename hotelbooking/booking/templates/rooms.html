@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Coucoue Lodge Assinie</title>
+    <meta name="description" content="Free Bootstrap Theme by uicookies.com">
+    <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+    {% load static %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/apple-touch-icon.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles-merged.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="js/vendor/html5shiv.min.js"></script>
+      <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+  <!-- START: header -->
+
+  <header role="banner" class="probootstrap-header">
+    <!-- <div class="container"> -->
+    <div class="row">
+        <a href="index.html" class="probootstrap-logo visible-xs">{% for hotel in hotels %}<img src="{{ hotel.logo_hotel.url }}" class="hires" width="150" height="70" alt="Free Bootstrap Template by uicookies.com">{% endfor %}</a>
+        
+        <a href="#" class="probootstrap-burger-menu visible-xs"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+
+        <nav role="navigation" class="probootstrap-nav hidden-xs">
+          <ul class="probootstrap-main-nav">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active"><a href="{% url 'chambres' %}">Chambres</a></li>
+            <li><a href="{% url 'reservation' %}">Reservation</a></li>
+            <!-- <li><a href="contact.html">Contact</a></li> -->
+            <li class="hidden-xs probootstrap-logo-center"><a href="{% url 'home' %}">{% for hotel in hotels %}<img src="{{ hotel.logo_hotel.url }}" class="hires" width="100" height="70">{% endfor %}</a></li>
+            {% if user.is_authenticated %}
+                <li>Bienvenue, {{ user.username }} </li>
+                <!-- <form method="get">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary btn-sm" id="submit" name="submit" value="Logout"> 
+                </form> -->
+            {% else %}
+                <li><a href="{% url 'register' %}">S'inscire</a></li>
+                <li><a href="{% url 'login' %}">Connexion</a></li>
+            {% endif %}
+        </ul>
+        
+          <div class="extra-text visible-xs">
+            <a href="#" class="probootstrap-burger-menu"><i>Menu</i></a>
+            <h5>Connect With Us</h5>
+            <ul class="social-buttons">
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-facebook2"></i></a></li>
+              <li><a href="#"><i class="icon-instagram2"></i></a></li>
+            </ul>
+          </div>
+        </nav>
+        </div>
+    <!-- </div> -->
+  </header>
+  <!-- END: header -->
+
+  <section class="probootstrap-slider flexslider probootstrap-inner">
+    <ul class="slides">
+      {% for room_photo in rooms_photos %}
+       <li style="background-image: url('{{room_photo.photo.url}}');" class="overlay">
+        {% endfor %}
+          <div class="container">
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <div class="probootstrap-slider-text text-center">
+                  {% load static %}
+                  <p><img src="{% static 'img/curve_white.svg' %}" class="seperator probootstrap-animate" alt="Free HTML5 Bootstrap Template"></p>
+                  <h1 class="probootstrap-heading probootstrap-animate">Meilleurs Chambres</h1>
+                  <div class="probootstrap-animate probootstrap-sub-wrap">Des chambres et des suites qui vous ressemblent.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+    </ul>
+  </section>
+  
+  <section class="probootstrap-section">
+    <div class="container">
+      <div class="row">
+        {% for room in rooms %}
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="probootstrap-room">
+                {% for room_photo in rooms_photos %}
+                {% if room_photo.id == room.id %}
+            <a href="#" class="image-popup"><img src="{{room_photo.photo.url}}" alt="Free Bootstrap Template by uicookies.com" class="img-responsive"></a>
+                {% endif %}
+                {% endfor %}
+            <div class="text">
+              <h3>{{room.nom_chambre}}</h3>
+              <p>Reservez à  <strong>{{room.prix_chambre}} FCFA/Jour</strong></p>
+              <!-- <div class="post-meta mb30">
+                <ul>
+                  <li><span class="review-rate">4.7</span> <i class="icon-star"></i> 252 Reviews</li>
+                  <li><i class="icon-user2"></i> 3 Guests</li>
+                </ul>
+              </div> -->
+              <form method="get" style="display: inline;" action="{% url 'reservation' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" role="button" name="room" value="{{room.id}}">Réservez à {{room.prix_chambre}} FCFA</button>
+                <!-- {% for room in rooms %}
+                <input type="hidden" class="form-control"  name="room" value="{{room.id}}">
+                {% endfor %} -->
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="clearfix visible-sm-block"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h2>Pourquoi nous?</h2>
+          <p class="mb50">{% load static %}<img src="{% static 'img/curve.svg' %}" class="svg" alt="Free HTML5 Bootstrap Template"></p>
+        </div>
+        <div class="col-md-4">
+          <div class="service left-icon left-icon-sm probootstrap-animate">
+            <div class="icon">
+              <i class="icon-check"></i>
+            </div>
+            <div class="text">
+              <h3>+50 Chambres d'hotel</h3>
+              <p>Avec six styles de chambre différents, l'hôtel Coucoué Lodge à Assinie vous accueille en famille, en amoureux, entre amis, en séminaire... Choisissez une chambre au calme côté jardin ou une grande chambre familiale sur la plage pour 4 voire 6 personnes. Vous venez à deux ? Les petits bungalows et les chambres de charme de l'hôtel, face à la lagune ou à l'Océan, sont pour vous.</p>
+              <p><a href="#" class="link-with-icon">Voir plus <i class=" icon-chevron-right"></i></a></p>
+            </div>  
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="service left-icon left-icon-sm probootstrap-animate">
+            <div class="icon">
+              <i class="icon-check"></i>
+            </div>
+            <div class="text">
+              <h3>Restauration</h3>
+              <p>Le grand restaurant de l'hôtel Coucoué Lodge est installé sur le ponton, qui surplombe la lagune, et se prolonge dans les salons décorés, attenants au bar intérieur. Au menu, une cuisine maison de plats ivoiriens et internationaux accompagnés de vins venus du monde entier. Le weekend, le restaurant de plage Le Margouillat vous propose de savourer fines brochettes et pizzas au feu de bois, directement sur la plage d'Assinie.</p>
+              <p><a href="#" class="link-with-icon">Voir plus <i class=" icon-chevron-right"></i></a></p>
+            </div>  
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="service left-icon left-icon-sm probootstrap-animate">
+            <div class="icon">
+              <i class="icon-check"></i>
+            </div>
+            <div class="text">
+              <h3>Détente
+                Sports & activités</h3>
+              <p>Surf, jet-ski, golf, tennis, volley, piscine, canoë, billard, ping-pong, voile... Pour les sports et activités à Assinie, vous avez trouvé la bonne adresse</p>
+              <p><a href="#" class="link-with-icon">Voir plus <i class=" icon-chevron-right"></i></a></p>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- START: footer -->
+  <footer role="contentinfo" class="probootstrap-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="probootstrap-footer-widget">
+            <p class="mt40">{% for hotel in  hotels %}<img src="{{ hotel.logo_hotel.url }}" class="hires" width="120" height="70" alt="Free HTML5 Bootstrap Template by uicookies.com">{% endfor %}</p>
+            <p>Les chambres du Coucoué Lodge Assinie vous accueillent à deux, en famille, entre amis.</p>
+            <p><a href="#" class="link-with-icon">Voir plus<i class=" icon-chevron-right"></i></a></p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="probootstrap-footer-widget">
+            <h3>Contact</h3>
+            <ul class="probootstrap-contact-info">
+              <li><i class="icon-location2"></i> <span>Route Assinie-Mafia, KM 8
+                Assinie
+                Côte d'Ivoire</span></li>
+              <!-- <li><i class="icon-mail"></i><span>info@domain.com</span></li> -->
+              <li><i class="icon-phone2"></i><span>07 07 07 77 69</span></li>
+            </ul>
+            
+          </div>
+        </div>
+      </div>
+      <div class="row mt40">
+        <div class="col-md-12 text-center">
+          <ul class="probootstrap-footer-social">
+            <li><a href=""><i class="icon-twitter"></i></a></li>
+            <li><a href=""><i class="icon-facebook"></i></a></li>
+            <li><a href=""><i class="icon-instagram2"></i></a></li>
+          </ul>
+          <!-- <p>
+            <small>&copy; 2017 <a href="https://uicookies.com/" target="_blank">uiCookies:Atlantis</a>. All Rights Reserved. <br> Designed &amp; Developed by <a href="https://uicookies.com/" target="_blank">uicookies.com</a> Demo Images: Unsplash.com &amp; Pexels.com</small>
+          </p> -->
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- END: footer -->
+  {% load static %}
+  <script src="{% static 'js/scripts.min.js'%}"></script>
+  {% load static %}
+  <script src="{% static 'js/main.min.js'%}"></script>
+  {% load static %}
+  <script src="{% static 'js/custom.js'%}"></script>
+
+
+  </body>
+</html>
