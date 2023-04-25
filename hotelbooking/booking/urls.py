@@ -9,5 +9,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('chambres/', ChambreView.as_view(), name='chambres'),
-    path('reservation/',ReservationView.as_view(), name= 'reservation')
+    path('reservation/', ReservationView.as_view(), name= 'reservation')
 ]

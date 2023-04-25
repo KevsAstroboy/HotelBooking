@@ -6,12 +6,12 @@ from datetime import datetime
 
 from .models import *
 
-@login_required(login_url='login')
+
 class ReservationView(View):
 
     template_index = 'reservation.html'
     date_format = "%m/%d/%Y"
-
+    
     def get(self, request):
 
         if not request.user.is_authenticated:
@@ -70,4 +70,4 @@ class ReservationView(View):
 
                     messages.success(request, 'Réservation effectuée avec succès')
 
-        return redirect('reservation')
+        return render(request, self.template_index)
