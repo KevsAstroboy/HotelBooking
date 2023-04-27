@@ -6,7 +6,7 @@ Application de réservation de chambre d'hotel faite avec le Framework Django
 
 
 
-<img src="https://i.ibb.co/Pwtpg0z/HomePage.png" alt="HomePage" border="0" />
+<a href="https://ibb.co/Pwtpg0z"><img src="https://i.ibb.co/m6Ss4gF/HomePage.png" alt="HomePage" border="0" /></a>
 
 
 ### Fonctionnalités
